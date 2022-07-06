@@ -3,20 +3,32 @@
 import sys
 import os
 
-# testando se o arquivo realmente existe
-if os.path.exists('names.txt'):
-    print('O arquivo existe')
-    input('...') # Race Condition
-    names = open('names.txt').readlines()
-else:
-    print('[Error]: File names.txt not found')
-    sys.exit(1)
-        
-# LBYL - Look Before You Leap
+# EAFP - Easy to Ask Forgiveness than permission
+# (É mais fácil pedir perdão do que permissão)
 
-# testando se é possivel acessar o indice no arquivo
-if len(names) >= 3:
-    print(names[2])
+try:
+    raise RuntimeError('Ocorreu um erro')
+except Exception as e:
+    print(str(e))
+    
+
+try:
+    names = open('names.txt').readlines()  # FileNotFoundError
+
+except FileNotFoundError as e: # Bare except
+    print(f'Erro: {str(e)}')
+    sys.exit(1)
+    # TODO: Usar retry
 else:
+    print('Sucesso!!!')
+finally:
+    print('sempre execute isso!')
+
+
+try:
+    print(names[2])
+except:
     print('[Error]: Missing name in the list')
     sys.exit(1)
+
+
