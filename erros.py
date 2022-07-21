@@ -6,11 +6,6 @@ import os
 # EAFP - Easy to Ask Forgiveness than permission
 # (É mais fácil pedir perdão do que permissão)
 
-try:
-    raise RuntimeError('Ocorreu um erro')
-except Exception as e:
-    print(str(e))
-    
 
 try:
     names = open('names.txt').readlines()  # FileNotFoundError
